@@ -203,13 +203,10 @@ def new_actividad():
         "Actividad_Tres", "Actividad_Cuatro", "Actividad_Cinco")
         form.activ.choices = actividades
         if form.validate_on_submit():
-            try:
-                archivo111 = form.arch.data
-                nombre = f"{current_user.username}_{form.activ.data}_{ahora()}.rar"
-                nombre_archiv = secure_filename(nombre)
-                archivo111.save(f"{app.config['UPLOAD_FOLDER']}/{nombre_archiv}")
-            except:
-                nombre_archiv = ""
+            archivo111 = form.arch.data
+            nombre = f"{current_user.username}_{form.activ.data}_{ahora()}.rar"
+            nombre_archiv = secure_filename(nombre)
+            archivo111.save(f"{app.config['UPLOAD_FOLDER']}/{nombre_archiv}")
             activity = Actividad(user_id=current_user.id, activ=form.activ.data, comentarios=form.comentarios.data,
                 archivo=nombre_archiv, creacion=ahora())
             db.session.add(activity)
