@@ -10,6 +10,7 @@ from Plataforma.utils import ahora
 from Plataforma.api.usuarios import urls_api
 from Plataforma.api.actividades import api_actividad
 import base64
+from Plataforma.s3 import upload_file, download_file
 
 
 app = Flask(__name__)
@@ -72,7 +73,8 @@ def login():
 @app.route("/download/<archivo>")
 @login_required
 def download(archivo):
-    return send_from_directory(app.config["UPLOAD_FOLDER"], archivo)
+    # return send_from_directory(app.config["UPLOAD_FOLDER"], archivo)
+    return download_file(archivo)
 
 #---------------------------------------------------------------------------------
 @app.route("/admin")
@@ -206,7 +208,8 @@ def new_actividad():
             archivo111 = form.arch.data
             nombre = f"{current_user.username}_{form.activ.data}_{ahora()}.rar"
             nombre_archiv = secure_filename(nombre)
-            archivo111.save(f"{app.config['UPLOAD_FOLDER']}/{nombre_archiv}")
+            # archivo111.save(f"{app.config['UPLOAD_FOLDER']}/{nombre_archiv}")
+            upload_file(archivo111, nombre_archiv)
             activity = Actividad(user_id=current_user.id, activ=form.activ.data, comentarios=form.comentarios.data,
                 archivo=nombre_archiv, creacion=ahora())
             db.session.add(activity)
