@@ -11,5 +11,4 @@ def download_file(object_name):
     bucket = config('S3_BUCKET')
     file_name = object_name
     s3 = boto3.client('s3')
-    s3.download_file(bucket, object_name, file_name)
-    return file_name
+    return s3.download_file(bucket, object_name, file_name)
