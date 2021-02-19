@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, \
-    abort, send_from_directory, jsonify, send_file
+    abort, jsonify
 from Plataforma import config
 from Plataforma.forms import *
 from flask_sqlalchemy import SQLAlchemy
@@ -208,7 +208,6 @@ def new_actividad():
             archivo111 = form.arch.data
             nombre = f"{current_user.username}_{form.activ.data}_{ahora()}.rar"
             nombre_archiv = secure_filename(nombre)
-            # archivo111.save(f"{app.config['UPLOAD_FOLDER']}/{nombre_archiv}")
             upload_file(archivo111, nombre_archiv)
             activity = Actividad(user_id=current_user.id, activ=form.activ.data, comentarios=form.comentarios.data,
                 archivo=nombre_archiv, creacion=ahora())
