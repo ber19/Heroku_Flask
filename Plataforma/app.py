@@ -70,11 +70,11 @@ def login():
                 form.username.errors.append("Usuario o contraseña incorrectos")
     return render_template("login.html", form=form)
 
-@app.route("/download/<archivo>")
-@login_required
-def download(archivo):
-    # return send_from_directory(app.config["UPLOAD_FOLDER"], archivo)
-    return send_file(download_file(archivo), as_attachment=True)
+# @app.route("/download/<archivo>")
+# @login_required
+# def download(archivo):
+#     # return send_from_directory(app.config["UPLOAD_FOLDER"], archivo)
+#     return send_file(download_file(archivo), as_attachment=True)
 
 #---------------------------------------------------------------------------------
 @app.route("/admin")
@@ -230,6 +230,7 @@ def actividades_user(id):
             activs1 = Actividad.query.filter_by(user_id=id)
     else:
         abort(404)
+    # url_bucket = 
     return render_template("activs_user.html", activs=activs1, user=user1)
 
 #---------------------------------------------------------------------------------
