@@ -45,12 +45,10 @@ def crear_actividad():
         # datos = ar.read()
         nombre = f"{current_user.username}_{activ}_{ahora()}.rar"
         nombre_archiv = secure_filename(nombre)
-        from Plataforma.config import S3_BUCKET
-        bucket = S3_BUCKET
         # s3 = boto3.client('s3')
         # with open(f"{archivo}", "rb") as f:
         #     s3.upload_fileobj(f, bucket, nombre_archiv)
-        upload_file(bucket, ar, nombre_archiv)
+        upload_file(app.config['S3_BUCKET'], ar, nombre_archiv)
 
 
         # f = open(f"{app.config['UPLOAD_FOLDER']}/{nombre_archiv}", "xb")
