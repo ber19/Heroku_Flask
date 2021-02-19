@@ -73,7 +73,7 @@ def login():
 @app.route("/download/<archivo>")
 @login_required
 def download(archivo):
-    url = create_presigned_url(archivo)
+    url = create_presigned_url(app.config['S3_BUCKET'] ,archivo)
     return redirect(f"{url}")
 
 #---------------------------------------------------------------------------------
@@ -208,7 +208,7 @@ def new_actividad():
             archivo111 = form.arch.data
             nombre = f"{current_user.username}_{form.activ.data}_{ahora()}.rar"
             nombre_archiv = secure_filename(nombre)
-            upload_file(archivo111, nombre_archiv)
+            upload_file(app.config['S3_BUCKET'], archivo111, nombre_archiv)
             activity = Actividad(user_id=current_user.id, activ=form.activ.data, comentarios=form.comentarios.data,
                 archivo=nombre_archiv, creacion=ahora())
             db.session.add(activity)
