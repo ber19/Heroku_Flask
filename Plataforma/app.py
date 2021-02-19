@@ -74,7 +74,8 @@ def login():
 @login_required
 def download(archivo):
     # return send_from_directory(app.config["UPLOAD_FOLDER"], archivo)
-    return send_file(download_file(archivo), as_attachment=True)
+    output = download_file(archivo)
+    return send_file(output, as_attachment=True)
 
 #---------------------------------------------------------------------------------
 @app.route("/admin")

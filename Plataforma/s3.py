@@ -12,3 +12,4 @@ def download_file(object_name):
     file_name = object_name
     s3 = boto3.client('s3')
     s3.download_file(bucket, object_name, file_name)
+    return file_name
