@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, \
-    abort, send_from_directory, jsonify
+    abort, send_from_directory, jsonify, send_file
 from Plataforma import config
 from Plataforma.forms import *
 from flask_sqlalchemy import SQLAlchemy
@@ -74,7 +74,8 @@ def login():
 @login_required
 def download(archivo):
     # return send_from_directory(app.config["UPLOAD_FOLDER"], archivo)
-    return download_file(archivo)
+    # return download_file(archivo)
+    return send_file(download_file(archivo))
 
 #---------------------------------------------------------------------------------
 @app.route("/admin")
