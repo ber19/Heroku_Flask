@@ -21,9 +21,7 @@
                 <td>{{ activ.creacion }}</td>
                 <td>{{ activ.activ }}</td>
                 <td>{{ activ.comentarios }}</td>
-                {#
-                <!-- <td><a href="/download/{{ activ.archivo }}">{{ activ.archivo }}</a></td> -->#}
-                <td><a href="{{ url_bucket }}/{{ activ.archivo }}">{{ activ.archivo }}</a></td>
+                <td><a href="download/{{ activ.archivo }}">{{ activ.archivo }}</a></td>
             </tr>
             {% endfor %}
         </tbody>

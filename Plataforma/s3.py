@@ -6,8 +6,17 @@ def upload_file(file1, object_name):
     s3 = boto3.client('s3')
     s3.upload_fileobj(file1, bucket, object_name)
 
-def download_file(object_name):
+def create_presigned_url(object_name, expiration=3600):
     bucket = config('S3_BUCKET')
-    file_name = object_name
     s3 = boto3.client('s3')
-    s3.download_file(bucket, object_name, file_name)
+    url = s3.generate_presigned_url('get_object',
+            Params={'Bucket':bucket, 'Key':object_name},
+            ExpiresIn=expiration)
+    return url
+
+
+# def download_file(object_name):
+#     bucket = config('S3_BUCKET')
+#     file_name = object_name
+#     s3 = boto3.client('s3')
+#     s3.download_file(bucket, object_name, file_name)

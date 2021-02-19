@@ -10,7 +10,7 @@ from Plataforma.utils import ahora
 from Plataforma.api.usuarios import urls_api
 from Plataforma.api.actividades import api_actividad
 import base64
-from Plataforma.s3 import upload_file, download_file
+from Plataforma.s3 import upload_file, create_presigned_url
 
 
 app = Flask(__name__)
@@ -70,11 +70,11 @@ def login():
                 form.username.errors.append("Usuario o contraseña incorrectos")
     return render_template("login.html", form=form)
 
-# @app.route("/download/<archivo>")
-# @login_required
-# def download(archivo):
-#     # return send_from_directory(app.config["UPLOAD_FOLDER"], archivo)
-#     return send_file(download_file(archivo), as_attachment=True)
+@app.route("/download/<archivo>")
+@login_required
+def download(archivo):
+    url = create_presigned_url(archivo)
+    return redirect(f"{url}")
 
 #---------------------------------------------------------------------------------
 @app.route("/admin")
@@ -230,8 +230,7 @@ def actividades_user(id):
             activs1 = Actividad.query.filter_by(user_id=id)
     else:
         abort(404)
-    url_bucket = app.config["S3_URL_BUCKET"]
-    return render_template("activs_user.html", activs=activs1, user=user1, url_bucket=url_bucket)
+    return render_template("activs_user.html", activs=activs1, user=user1)
 
 #---------------------------------------------------------------------------------
 @app.route("/salir")
