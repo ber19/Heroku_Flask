@@ -73,7 +73,7 @@ def login():
 @app.route("/download/<archivo>")
 @login_required
 def download(archivo):
-    url = create_presigned_url(app.config['S3_BUCKET'] ,archivo)
+    url = create_presigned_url(app.config['S3_BUCKET'], archivo)
     return redirect(f"{url}")
 
 #---------------------------------------------------------------------------------
