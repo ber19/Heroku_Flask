@@ -35,24 +35,14 @@ def crear_actividad():
     if not current_user.is_admin():
         from Plataforma.app import db, app
         from Plataforma.models import Actividad
-        json = request.get_json(force=True)
         user = current_user.id
-        activ = json.get('activ')
-        comentarios = json.get('comentarios')
+        activ = request.form.get('activ')
+        comentarios = request.form.get('comentarios')
         creacion = ahora()
-        archivo = json.get('archivo')
-        ar = open(f"{archivo}", "rb")
-        # datos = ar.read()
+        ar = request.files.get('archivo')
         nombre = f"{current_user.username}_{activ}_{ahora()}.rar"
         nombre_archiv = secure_filename(nombre)
-        # s3 = boto3.client('s3')
-        # with open(f"{archivo}", "rb") as f:
-        #     s3.upload_fileobj(f, bucket, nombre_archiv)
         upload_file(app.config['S3_BUCKET'], ar, nombre_archiv)
-
-
-        # f = open(f"{app.config['UPLOAD_FOLDER']}/{nombre_archiv}", "xb")
-        # f.write(datos)
         nueva = Actividad()
         nueva.user_id = user
         nueva.activ = activ
@@ -64,4 +54,3 @@ def crear_actividad():
         return jsonify(nueva.serialize())
     else:
         return jsonify({"Error":"Es administrador"}), 401
-
